@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 4 A Look At The Tables | Baseball Analytics Workshop (Morning Session)</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 4 A Look At The Tables | Baseball Analytics Workshop (Morning Session)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 A Look At The Tables | Baseball Analytics Workshop (Morning Session)" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Charles Redmond">
+
+
+<meta name="date" content="2019-03-21">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="install-lahman.html">
+<link rel="next" href="install-dplyr.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Baseball Analytics Workshop</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Software Installation</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#install-r"><i class="fa fa-check"></i><b>1.1</b> Install R</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#windows"><i class="fa fa-check"></i><b>1.1.1</b> Windows</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#mac"><i class="fa fa-check"></i><b>1.1.2</b> Mac</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#rstudio"><i class="fa fa-check"></i><b>1.2</b> RStudio</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro-to-rstudio.html"><a href="intro-to-rstudio.html"><i class="fa fa-check"></i><b>2</b> Intro to RStudio</a></li>
+<li class="chapter" data-level="3" data-path="install-lahman.html"><a href="install-lahman.html"><i class="fa fa-check"></i><b>3</b> Install Lahman</a></li>
+<li class="chapter" data-level="4" data-path="a-look-at-the-tables.html"><a href="a-look-at-the-tables.html"><i class="fa fa-check"></i><b>4</b> A Look At The Tables</a></li>
+<li class="chapter" data-level="5" data-path="install-dplyr.html"><a href="install-dplyr.html"><i class="fa fa-check"></i><b>5</b> Install dplyr</a></li>
+<li class="chapter" data-level="6" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html"><i class="fa fa-check"></i><b>6</b> Selecting, Filtering, and Arranging</a><ul>
+<li class="chapter" data-level="6.1" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#select"><i class="fa fa-check"></i><b>6.1</b> Select</a></li>
+<li class="chapter" data-level="6.2" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#scripts"><i class="fa fa-check"></i><b>6.2</b> Scripts</a></li>
+<li class="chapter" data-level="6.3" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#filter"><i class="fa fa-check"></i><b>6.3</b> Filter</a></li>
+<li class="chapter" data-level="6.4" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#arrange"><i class="fa fa-check"></i><b>6.4</b> Arrange</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="grouping.html"><a href="grouping.html"><i class="fa fa-check"></i><b>7</b> Grouping</a><ul>
+<li class="chapter" data-level="7.1" data-path="grouping.html"><a href="grouping.html#the-basics"><i class="fa fa-check"></i><b>7.1</b> The Basics</a></li>
+<li class="chapter" data-level="7.2" data-path="grouping.html"><a href="grouping.html#exercise"><i class="fa fa-check"></i><b>7.2</b> Exercise</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Baseball Analytics Workshop (Morning Session)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="a-look-at-the-tables" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> A Look At The Tables</h1>
+<p>To see all of the tables available in the Lahman database, type the following in the console, and a list of them will appear above in the source panel:</p>
+<p><img src="tables1.png" /></p>
+<p>For this session, we will use the <strong>Batting</strong> table and the <strong>Master</strong> table, but there are many more that you can explore.</p>
+<p>Let’s take a look at the <strong>Batting</strong> table. To see the first few records in the table, you can simply type Batting in the console and press enter. But if you want to control how many records you see, it is best to use the <strong>head</strong> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(Batting,<span class="dv">10</span>)</code></pre></div>
+<pre><code>##     playerID yearID stint teamID lgID  G  AB  R  H X2B X3B HR RBI SB CS BB
+## 1  abercda01   1871     1    TRO   NA  1   4  0  0   0   0  0   0  0  0  0
+## 2   addybo01   1871     1    RC1   NA 25 118 30 32   6   0  0  13  8  1  4
+## 3  allisar01   1871     1    CL1   NA 29 137 28 40   4   5  0  19  3  1  2
+## 4  allisdo01   1871     1    WS3   NA 27 133 28 44  10   2  2  27  1  1  0
+## 5  ansonca01   1871     1    RC1   NA 25 120 29 39  11   3  0  16  6  2  2
+## 6  armstbo01   1871     1    FW1   NA 12  49  9 11   2   1  0   5  0  1  0
+## 7  barkeal01   1871     1    RC1   NA  1   4  0  1   0   0  0   2  0  0  1
+## 8  barnero01   1871     1    BS1   NA 31 157 66 63  10   9  0  34 11  6 13
+## 9  barrebi01   1871     1    FW1   NA  1   5  1  1   1   0  0   1  0  0  0
+## 10 barrofr01   1871     1    BS1   NA 18  86 13 13   2   1  0  11  1  0  0
+##    SO IBB HBP SH SF GIDP
+## 1   0  NA  NA NA NA   NA
+## 2   0  NA  NA NA NA   NA
+## 3   5  NA  NA NA NA   NA
+## 4   2  NA  NA NA NA   NA
+## 5   1  NA  NA NA NA   NA
+## 6   1  NA  NA NA NA   NA
+## 7   0  NA  NA NA NA   NA
+## 8   1  NA  NA NA NA   NA
+## 9   0  NA  NA NA NA   NA
+## 10  0  NA  NA NA NA   NA</code></pre>
+<p>Here we are looking at the first 10 records of the <strong>Batting</strong> table. Each player has at least one record for each year he played. If he played for more than one team in a year, he has multiple records for that year, one for each team. By reading the column names, you can see what statistics are available. And you can see that the data goes back to 1871.</p>
+<p>For the most part, we will be interested in the playerID, yearID, teamID, and HR columns.</p>
+<p>Before moving on, let’s take a look at the <strong>Master</strong> table.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(Master,<span class="dv">10</span>)</code></pre></div>
+<pre><code>##     playerID birthYear birthMonth birthDay birthCountry birthState
+## 1  aardsda01      1981         12       27          USA         CO
+## 2  aaronha01      1934          2        5          USA         AL
+## 3  aaronto01      1939          8        5          USA         AL
+## 4   aasedo01      1954          9        8          USA         CA
+## 5   abadan01      1972          8       25          USA         FL
+## 6   abadfe01      1985         12       17         D.R.  La Romana
+## 7  abadijo01      1850         11        4          USA         PA
+## 8  abbated01      1877          4       15          USA         PA
+## 9  abbeybe01      1869         11       11          USA         VT
+## 10 abbeych01      1866         10       14          USA         NE
+##       birthCity deathYear deathMonth deathDay deathCountry deathState
+## 1        Denver        NA         NA       NA         &lt;NA&gt;       &lt;NA&gt;
+## 2        Mobile        NA         NA       NA         &lt;NA&gt;       &lt;NA&gt;
+## 3        Mobile      1984          8       16          USA         GA
+## 4        Orange        NA         NA       NA         &lt;NA&gt;       &lt;NA&gt;
+## 5    Palm Beach        NA         NA       NA         &lt;NA&gt;       &lt;NA&gt;
+## 6     La Romana        NA         NA       NA         &lt;NA&gt;       &lt;NA&gt;
+## 7  Philadelphia      1905          5       17          USA         NJ
+## 8       Latrobe      1957          1        6          USA         FL
+## 9         Essex      1962          6       11          USA         VT
+## 10   Falls City      1926          4       27          USA         CA
+##          deathCity nameFirst    nameLast        nameGiven weight height
+## 1             &lt;NA&gt;     David     Aardsma      David Allan    215     75
+## 2             &lt;NA&gt;      Hank       Aaron      Henry Louis    180     72
+## 3          Atlanta    Tommie       Aaron       Tommie Lee    190     75
+## 4             &lt;NA&gt;       Don        Aase   Donald William    190     75
+## 5             &lt;NA&gt;      Andy        Abad    Fausto Andres    184     73
+## 6             &lt;NA&gt;  Fernando        Abad Fernando Antonio    220     73
+## 7        Pemberton      John      Abadie          John W.    192     72
+## 8  Fort Lauderdale        Ed Abbaticchio     Edward James    170     71
+## 9       Colchester      Bert       Abbey        Bert Wood    175     71
+## 10   San Francisco   Charlie       Abbey       Charles S.    169     68
+##    bats throws      debut  finalGame  retroID   bbrefID  deathDate
+## 1     R      R 2004-04-06 2015-08-23 aardd001 aardsda01       &lt;NA&gt;
+## 2     R      R 1954-04-13 1976-10-03 aaroh101 aaronha01       &lt;NA&gt;
+## 3     R      R 1962-04-10 1971-09-26 aarot101 aaronto01 1984-08-16
+## 4     R      R 1977-07-26 1990-10-03 aased001  aasedo01       &lt;NA&gt;
+## 5     L      L 2001-09-10 2006-04-13 abada001  abadan01       &lt;NA&gt;
+## 6     L      L 2010-07-28 2016-09-25 abadf001  abadfe01       &lt;NA&gt;
+## 7     R      R 1875-04-26 1875-06-10 abadj101 abadijo01 1905-05-17
+## 8     R      R 1897-09-04 1910-09-15 abbae101 abbated01 1957-01-06
+## 9     R      R 1892-06-14 1896-09-23 abbeb101 abbeybe01 1962-06-11
+## 10    L      L 1893-08-16 1897-08-19 abbec101 abbeych01 1926-04-27
+##     birthDate
+## 1  1981-12-27
+## 2  1934-02-05
+## 3  1939-08-05
+## 4  1954-09-08
+## 5  1972-08-25
+## 6  1985-12-17
+## 7  1850-11-04
+## 8  1877-04-15
+## 9  1869-11-11
+## 10 1866-10-14</code></pre>
+<p>Every player in baseball history, going back to 1871, has exactly one record in the Master table. It is here where you can find biographical information about the players, such as a player’s birthday, height, weight, etc. We will be interested, primarily, in the playerID, nameFirst, and nameLast columns.</p>
+<p>If there is time, we may also take a look at the Teams table.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="install-lahman.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="install-dplyr.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-tables.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

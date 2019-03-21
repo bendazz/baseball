@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 7 Grouping | Baseball Analytics Workshop (Morning Session)</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 7 Grouping | Baseball Analytics Workshop (Morning Session)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Grouping | Baseball Analytics Workshop (Morning Session)" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Charles Redmond">
+
+
+<meta name="date" content="2019-03-21">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="selecting-filtering-and-arranging.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Baseball Analytics Workshop</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Software Installation</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#install-r"><i class="fa fa-check"></i><b>1.1</b> Install R</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#windows"><i class="fa fa-check"></i><b>1.1.1</b> Windows</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#mac"><i class="fa fa-check"></i><b>1.1.2</b> Mac</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#rstudio"><i class="fa fa-check"></i><b>1.2</b> RStudio</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro-to-rstudio.html"><a href="intro-to-rstudio.html"><i class="fa fa-check"></i><b>2</b> Intro to RStudio</a></li>
+<li class="chapter" data-level="3" data-path="install-lahman.html"><a href="install-lahman.html"><i class="fa fa-check"></i><b>3</b> Install Lahman</a></li>
+<li class="chapter" data-level="4" data-path="a-look-at-the-tables.html"><a href="a-look-at-the-tables.html"><i class="fa fa-check"></i><b>4</b> A Look At The Tables</a></li>
+<li class="chapter" data-level="5" data-path="install-dplyr.html"><a href="install-dplyr.html"><i class="fa fa-check"></i><b>5</b> Install dplyr</a></li>
+<li class="chapter" data-level="6" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html"><i class="fa fa-check"></i><b>6</b> Selecting, Filtering, and Arranging</a><ul>
+<li class="chapter" data-level="6.1" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#select"><i class="fa fa-check"></i><b>6.1</b> Select</a></li>
+<li class="chapter" data-level="6.2" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#scripts"><i class="fa fa-check"></i><b>6.2</b> Scripts</a></li>
+<li class="chapter" data-level="6.3" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#filter"><i class="fa fa-check"></i><b>6.3</b> Filter</a></li>
+<li class="chapter" data-level="6.4" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#arrange"><i class="fa fa-check"></i><b>6.4</b> Arrange</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="grouping.html"><a href="grouping.html"><i class="fa fa-check"></i><b>7</b> Grouping</a><ul>
+<li class="chapter" data-level="7.1" data-path="grouping.html"><a href="grouping.html#the-basics"><i class="fa fa-check"></i><b>7.1</b> The Basics</a></li>
+<li class="chapter" data-level="7.2" data-path="grouping.html"><a href="grouping.html#exercise"><i class="fa fa-check"></i><b>7.2</b> Exercise</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Baseball Analytics Workshop (Morning Session)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="grouping" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Grouping</h1>
+<div id="the-basics" class="section level2">
+<h2><span class="header-section-number">7.1</span> The Basics</h2>
+<p>Babe Ruth played 22 seasons and therefore has 22 records in the Batting data frame. Each record indicates how many homeruns he hit that particular year. We might, however, be interested in finding out how many homeruns he hit over his entire career. To do this, we could group his 22 records together and then collapse them into one record by summing his homerun values.</p>
+<p>Let’s first take a look at each of his seasons. We first have to filter so that we are looking just at his records. Then we will select his playerID, teamID, yearID, and HR columns.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bdat &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">filter</span>(playerID <span class="op">==</span><span class="st"> &quot;ruthba01&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">select</span>(playerID,teamID,yearID,HR)
+          
+bdat</code></pre></div>
+<pre><code>##    playerID teamID yearID HR
+## 1  ruthba01    BOS   1914  0
+## 2  ruthba01    BOS   1915  4
+## 3  ruthba01    BOS   1916  3
+## 4  ruthba01    BOS   1917  2
+## 5  ruthba01    BOS   1918 11
+## 6  ruthba01    BOS   1919 29
+## 7  ruthba01    NYA   1920 54
+## 8  ruthba01    NYA   1921 59
+## 9  ruthba01    NYA   1922 35
+## 10 ruthba01    NYA   1923 41
+## 11 ruthba01    NYA   1924 46
+## 12 ruthba01    NYA   1925 25
+## 13 ruthba01    NYA   1926 47
+## 14 ruthba01    NYA   1927 60
+## 15 ruthba01    NYA   1928 54
+## 16 ruthba01    NYA   1929 46
+## 17 ruthba01    NYA   1930 49
+## 18 ruthba01    NYA   1931 46
+## 19 ruthba01    NYA   1932 41
+## 20 ruthba01    NYA   1933 34
+## 21 ruthba01    NYA   1934 22
+## 22 ruthba01    BSN   1935  6</code></pre>
+<p>(Note the “double equals” sign in the filter function above. )</p>
+<p>Now we would like to collapse these 22 records into one by summing the HR values. You can use the <strong>group_by</strong> and <strong>summarize</strong> verbs of dplyr to do this. We want to group by playerID. This is what is common to all of Babe Ruth’s records.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bdat &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">filter</span>(playerID <span class="op">==</span><span class="st"> &quot;ruthba01&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">summarize</span>(<span class="kw">sum</span>(HR))
+
+bdat</code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   playerID `sum(HR)`
+##   &lt;chr&gt;        &lt;int&gt;
+## 1 ruthba01       714</code></pre>
+<p>Note that there is no reason to select here. We automatically get the column we are grouping by and the column we are summarizing.</p>
+<p>Note also that the result, <strong>bdat</strong>, is now what is called a <strong>tibble</strong>. To keep things simple, let’s continue to produce data frames. Run this again, with the following change:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bdat &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">filter</span>(playerID <span class="op">==</span><span class="st"> &quot;ruthba01&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">summarize</span>(<span class="kw">sum</span>(HR))
+
+<span class="kw">data.frame</span>(bdat)</code></pre></div>
+<pre><code>##   playerID sum.HR.
+## 1 ruthba01     714</code></pre>
+<p>So, we have Babe Ruth’s 714 homeruns. The column name, however, is not so great. Let’s rename it “careerHR”. Make the following change:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bdat &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">filter</span>(playerID <span class="op">==</span><span class="st"> &quot;ruthba01&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">summarize</span>(<span class="dt">careerHR =</span> <span class="kw">sum</span>(HR))
+
+<span class="kw">data.frame</span>(bdat)</code></pre></div>
+<pre><code>##   playerID careerHR
+## 1 ruthba01      714</code></pre>
+<p>Of course, we could summarize the homerun column in a different way. We could, for instance, find the maximum number of homeruns Babe Ruth hit in a season:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bdat &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">filter</span>(playerID <span class="op">==</span><span class="st"> &quot;ruthba01&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">summarize</span>(<span class="dt">maxHR =</span> <span class="kw">max</span>(HR))
+
+<span class="kw">data.frame</span>(bdat)</code></pre></div>
+<pre><code>##   playerID maxHR
+## 1 ruthba01    60</code></pre>
+</div>
+<div id="exercise" class="section level2">
+<h2><span class="header-section-number">7.2</span> Exercise</h2>
+<p>Generate the list of players who hit 500 or more career homeruns. Have the players with the most homeruns at the top of the list.</p>
+<p><em>Solution</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bdat &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">summarize</span>(<span class="dt">careerHR =</span> <span class="kw">sum</span>(HR)) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">filter</span>(careerHR <span class="op">&gt;=</span><span class="st"> </span><span class="dv">500</span>) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">arrange</span>(<span class="kw">desc</span>(careerHR))
+
+<span class="kw">data.frame</span>(bdat)</code></pre></div>
+<pre><code>##     playerID careerHR
+## 1  bondsba01      762
+## 2  aaronha01      755
+## 3   ruthba01      714
+## 4  rodrial01      696
+## 5   mayswi01      660
+## 6  griffke02      630
+## 7  thomeji01      612
+## 8   sosasa01      609
+## 9  pujolal01      591
+## 10 robinfr02      586
+## 11 mcgwima01      583
+## 12 killeha01      573
+## 13 palmera01      569
+## 14 jacksre01      563
+## 15 ramirma02      555
+## 16 schmimi01      548
+## 17 ortizda01      541
+## 18 mantlmi01      536
+## 19  foxxji01      534
+## 20 mccovwi01      521
+## 21 thomafr04      521
+## 22 willite01      521
+## 23 bankser01      512
+## 24 matheed01      512
+## 25   ottme01      511
+## 26 sheffga01      509
+## 27 murraed02      504</code></pre>
+<p>Note that the filtering had to be done AFTER the grouping and summarizing.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="selecting-filtering-and-arranging.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-group.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

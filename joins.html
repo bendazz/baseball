@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 8 Joins | Baseball Analytics Workshop (Morning Session)</title>
+  <meta name="description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 8 Joins | Baseball Analytics Workshop (Morning Session)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Joins | Baseball Analytics Workshop (Morning Session)" />
+  
+  <meta name="twitter:description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop." />
+  
+
+<meta name="author" content="Charles Redmond">
+
+
+<meta name="date" content="2019-04-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="grouping.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Baseball Analytics Workshop</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Software Installation</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#install-r"><i class="fa fa-check"></i><b>1.1</b> Install R</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#windows"><i class="fa fa-check"></i><b>1.1.1</b> Windows</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#mac"><i class="fa fa-check"></i><b>1.1.2</b> Mac</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#rstudio"><i class="fa fa-check"></i><b>1.2</b> RStudio</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro-to-rstudio.html"><a href="intro-to-rstudio.html"><i class="fa fa-check"></i><b>2</b> Intro to RStudio</a></li>
+<li class="chapter" data-level="3" data-path="install-lahman.html"><a href="install-lahman.html"><i class="fa fa-check"></i><b>3</b> Install Lahman</a></li>
+<li class="chapter" data-level="4" data-path="a-look-at-the-tables.html"><a href="a-look-at-the-tables.html"><i class="fa fa-check"></i><b>4</b> A Look At The Tables</a></li>
+<li class="chapter" data-level="5" data-path="install-dplyr.html"><a href="install-dplyr.html"><i class="fa fa-check"></i><b>5</b> Install dplyr</a></li>
+<li class="chapter" data-level="6" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html"><i class="fa fa-check"></i><b>6</b> Selecting, Filtering, and Arranging</a><ul>
+<li class="chapter" data-level="6.1" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#select"><i class="fa fa-check"></i><b>6.1</b> Select</a></li>
+<li class="chapter" data-level="6.2" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#scripts"><i class="fa fa-check"></i><b>6.2</b> Scripts</a></li>
+<li class="chapter" data-level="6.3" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#filter"><i class="fa fa-check"></i><b>6.3</b> Filter</a></li>
+<li class="chapter" data-level="6.4" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#arrange"><i class="fa fa-check"></i><b>6.4</b> Arrange</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="grouping.html"><a href="grouping.html"><i class="fa fa-check"></i><b>7</b> Grouping</a><ul>
+<li class="chapter" data-level="7.1" data-path="grouping.html"><a href="grouping.html#the-basics"><i class="fa fa-check"></i><b>7.1</b> The Basics</a></li>
+<li class="chapter" data-level="7.2" data-path="grouping.html"><a href="grouping.html#exercise"><i class="fa fa-check"></i><b>7.2</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="joins.html"><a href="joins.html"><i class="fa fa-check"></i><b>8</b> Joins</a><ul>
+<li class="chapter" data-level="8.1" data-path="joins.html"><a href="joins.html#the-basics-1"><i class="fa fa-check"></i><b>8.1</b> The Basics</a></li>
+<li class="chapter" data-level="8.2" data-path="joins.html"><a href="joins.html#exercise-1"><i class="fa fa-check"></i><b>8.2</b> Exercise 1</a></li>
+<li class="chapter" data-level="8.3" data-path="joins.html"><a href="joins.html#exercise-2"><i class="fa fa-check"></i><b>8.3</b> Exercise 2</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Baseball Analytics Workshop (Morning Session)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="joins" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Joins</h1>
+<div id="the-basics-1" class="section level2">
+<h2><span class="header-section-number">8.1</span> The Basics</h2>
+<p>In chapter 6 we generated the list of records where the homerun total was 50 or more. Only each player’s ID was indicated, however. It would be nice to have their names as well. But this information is not in the Batting table, but rather in the Master table. We will therefore have to <strong>join</strong> the Batting and the Master table.</p>
+<p>Let’s begin by generating again the list from chapter 6:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HR_df &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">filter</span>(HR <span class="op">&gt;=</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">select</span>(playerID,yearID,teamID,HR) 
+          
+<span class="kw">data.frame</span>(HR_df)</code></pre></div>
+<pre><code>##     playerID yearID teamID HR
+## 1   ruthba01   1920    NYA 54
+## 2   ruthba01   1921    NYA 59
+## 3   ruthba01   1927    NYA 60
+## 4   ruthba01   1928    NYA 54
+## 5  wilsoha01   1930    CHN 56
+## 6   foxxji01   1932    PHA 58
+## 7   foxxji01   1938    BOS 50
+## 8  greenha01   1938    DET 58
+## 9  kinerra01   1947    PIT 51
+## 10  mizejo01   1947    NY1 51
+## 11 kinerra01   1949    PIT 54
+## 12  mayswi01   1955    NY1 51
+## 13 mantlmi01   1956    NYA 52
+## 14 mantlmi01   1961    NYA 54
+## 15 marisro01   1961    NYA 61
+## 16  mayswi01   1965    SFN 52
+## 17 fostege01   1977    CIN 52
+## 18 fieldce01   1990    DET 51
+## 19 belleal01   1995    CLE 50
+## 20 anderbr01   1996    BAL 50
+## 21 mcgwima01   1996    OAK 52
+## 22 griffke02   1997    SEA 56
+## 23 griffke02   1998    SEA 56
+## 24 mcgwima01   1998    SLN 70
+## 25  sosasa01   1998    CHN 66
+## 26 vaughgr01   1998    SDN 50
+## 27 mcgwima01   1999    SLN 65
+## 28  sosasa01   1999    CHN 63
+## 29  sosasa01   2000    CHN 50
+## 30 bondsba01   2001    SFN 73
+## 31 gonzalu01   2001    ARI 57
+## 32 rodrial01   2001    TEX 52
+## 33  sosasa01   2001    CHN 64
+## 34 rodrial01   2002    TEX 57
+## 35 thomeji01   2002    CLE 52
+## 36 jonesan01   2005    ATL 51
+## 37 howarry01   2006    PHI 58
+## 38 ortizda01   2006    BOS 54
+## 39 fieldpr01   2007    MIL 50
+## 40 rodrial01   2007    NYA 54
+## 41 bautijo02   2010    TOR 54
+## 42 davisch02   2013    BAL 53</code></pre>
+<p>Here I did not bother with arranging, and I renamed the data frame.</p>
+<p>Now let’s pull playerID, nameFirst, and nameLast from the Master table:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">playerNames_df &lt;-<span class="st"> </span>Master <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">select</span>(playerID,nameFirst,nameLast)
+
+<span class="kw">head</span>(playerNames_df)</code></pre></div>
+<pre><code>##    playerID nameFirst nameLast
+## 1 aardsda01     David  Aardsma
+## 2 aaronha01      Hank    Aaron
+## 3 aaronto01    Tommie    Aaron
+## 4  aasedo01       Don     Aase
+## 5  abadan01      Andy     Abad
+## 6  abadfe01  Fernando     Abad</code></pre>
+<p>I am showing, here, just the top of the playerNames_df data frame.</p>
+<p>We can now join playerNames_df and HR_df together:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result &lt;-<span class="st"> </span><span class="kw">inner_join</span>(playerNames_df,HR_df,<span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;playerID&quot;</span>=<span class="st">&quot;playerID&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">select</span>(nameFirst,nameLast,yearID,teamID,HR) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">arrange</span>(<span class="kw">desc</span>(HR))
+
+<span class="kw">data.frame</span>(result)</code></pre></div>
+<pre><code>##    nameFirst  nameLast yearID teamID HR
+## 1      Barry     Bonds   2001    SFN 73
+## 2       Mark   McGwire   1998    SLN 70
+## 3      Sammy      Sosa   1998    CHN 66
+## 4       Mark   McGwire   1999    SLN 65
+## 5      Sammy      Sosa   2001    CHN 64
+## 6      Sammy      Sosa   1999    CHN 63
+## 7      Roger     Maris   1961    NYA 61
+## 8       Babe      Ruth   1927    NYA 60
+## 9       Babe      Ruth   1921    NYA 59
+## 10    Jimmie      Foxx   1932    PHA 58
+## 11      Hank Greenberg   1938    DET 58
+## 12      Ryan    Howard   2006    PHI 58
+## 13      Luis  Gonzalez   2001    ARI 57
+## 14      Alex Rodriguez   2002    TEX 57
+## 15       Ken   Griffey   1997    SEA 56
+## 16       Ken   Griffey   1998    SEA 56
+## 17      Hack    Wilson   1930    CHN 56
+## 18      Jose  Bautista   2010    TOR 54
+## 19     Ralph     Kiner   1949    PIT 54
+## 20    Mickey    Mantle   1961    NYA 54
+## 21     David     Ortiz   2006    BOS 54
+## 22      Alex Rodriguez   2007    NYA 54
+## 23      Babe      Ruth   1920    NYA 54
+## 24      Babe      Ruth   1928    NYA 54
+## 25     Chris     Davis   2013    BAL 53
+## 26    George    Foster   1977    CIN 52
+## 27    Mickey    Mantle   1956    NYA 52
+## 28    Willie      Mays   1965    SFN 52
+## 29      Mark   McGwire   1996    OAK 52
+## 30      Alex Rodriguez   2001    TEX 52
+## 31       Jim     Thome   2002    CLE 52
+## 32     Cecil   Fielder   1990    DET 51
+## 33    Andruw     Jones   2005    ATL 51
+## 34     Ralph     Kiner   1947    PIT 51
+## 35    Willie      Mays   1955    NY1 51
+## 36    Johnny      Mize   1947    NY1 51
+## 37     Brady  Anderson   1996    BAL 50
+## 38    Albert     Belle   1995    CLE 50
+## 39    Prince   Fielder   2007    MIL 50
+## 40    Jimmie      Foxx   1938    BOS 50
+## 41     Sammy      Sosa   2000    CHN 50
+## 42      Greg    Vaughn   1998    SDN 50</code></pre>
+<p>Note that I decided not to select the playerID here.</p>
+</div>
+<div id="exercise-1" class="section level2">
+<h2><span class="header-section-number">8.2</span> Exercise 1</h2>
+<p>Include the <strong>team</strong> name in the list above.</p>
+<p><em>Solution</em></p>
+<p>First, let’s generate a teamNames_df:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">teamNames_df &lt;-<span class="st"> </span>Teams <span class="op">%&gt;%</span>
+<span class="st">                  </span><span class="kw">select</span>(teamID,yearID,name)
+
+<span class="kw">head</span>(teamNames_df)</code></pre></div>
+<pre><code>##   teamID yearID                    name
+## 1    BS1   1871    Boston Red Stockings
+## 2    CH1   1871 Chicago White Stockings
+## 3    CL1   1871  Cleveland Forest Citys
+## 4    FW1   1871    Fort Wayne Kekiongas
+## 5    NY2   1871        New York Mutuals
+## 6    PH1   1871  Philadelphia Athletics</code></pre>
+<p>Above we are finding the name associated with each teamID for each year.</p>
+<p>Now we join:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result2 &lt;-<span class="st"> </span><span class="kw">inner_join</span>(teamNames_df,result,<span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;teamID&quot;</span>=<span class="st">&quot;teamID&quot;</span>,<span class="st">&quot;yearID&quot;</span>=<span class="st">&quot;yearID&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">      </span><span class="kw">select</span>(nameFirst,nameLast,name,yearID,HR) <span class="op">%&gt;%</span>
+<span class="st">      </span><span class="kw">arrange</span>(<span class="kw">desc</span>(HR))
+
+<span class="kw">data.frame</span>(result2)</code></pre></div>
+<pre><code>##    nameFirst  nameLast                   name yearID HR
+## 1      Barry     Bonds   San Francisco Giants   2001 73
+## 2       Mark   McGwire    St. Louis Cardinals   1998 70
+## 3      Sammy      Sosa           Chicago Cubs   1998 66
+## 4       Mark   McGwire    St. Louis Cardinals   1999 65
+## 5      Sammy      Sosa           Chicago Cubs   2001 64
+## 6      Sammy      Sosa           Chicago Cubs   1999 63
+## 7      Roger     Maris       New York Yankees   1961 61
+## 8       Babe      Ruth       New York Yankees   1927 60
+## 9       Babe      Ruth       New York Yankees   1921 59
+## 10    Jimmie      Foxx Philadelphia Athletics   1932 58
+## 11      Hank Greenberg         Detroit Tigers   1938 58
+## 12      Ryan    Howard  Philadelphia Phillies   2006 58
+## 13      Luis  Gonzalez   Arizona Diamondbacks   2001 57
+## 14      Alex Rodriguez          Texas Rangers   2002 57
+## 15      Hack    Wilson           Chicago Cubs   1930 56
+## 16       Ken   Griffey       Seattle Mariners   1997 56
+## 17       Ken   Griffey       Seattle Mariners   1998 56
+## 18      Babe      Ruth       New York Yankees   1920 54
+## 19      Babe      Ruth       New York Yankees   1928 54
+## 20     Ralph     Kiner     Pittsburgh Pirates   1949 54
+## 21    Mickey    Mantle       New York Yankees   1961 54
+## 22     David     Ortiz         Boston Red Sox   2006 54
+## 23      Alex Rodriguez       New York Yankees   2007 54
+## 24      Jose  Bautista      Toronto Blue Jays   2010 54
+## 25     Chris     Davis      Baltimore Orioles   2013 53
+## 26    Mickey    Mantle       New York Yankees   1956 52
+## 27    Willie      Mays   San Francisco Giants   1965 52
+## 28    George    Foster        Cincinnati Reds   1977 52
+## 29      Mark   McGwire      Oakland Athletics   1996 52
+## 30      Alex Rodriguez          Texas Rangers   2001 52
+## 31       Jim     Thome      Cleveland Indians   2002 52
+## 32    Johnny      Mize        New York Giants   1947 51
+## 33     Ralph     Kiner     Pittsburgh Pirates   1947 51
+## 34    Willie      Mays        New York Giants   1955 51
+## 35     Cecil   Fielder         Detroit Tigers   1990 51
+## 36    Andruw     Jones         Atlanta Braves   2005 51
+## 37    Jimmie      Foxx         Boston Red Sox   1938 50
+## 38    Albert     Belle      Cleveland Indians   1995 50
+## 39     Brady  Anderson      Baltimore Orioles   1996 50
+## 40      Greg    Vaughn       San Diego Padres   1998 50
+## 41     Sammy      Sosa           Chicago Cubs   2000 50
+## 42    Prince   Fielder      Milwaukee Brewers   2007 50</code></pre>
+<p>It takes a little thought to see why we had to join by both teamID <strong>and</strong> yearID. If we had not, Babe Ruth’s 1927 record, for instance, would have been joined with <strong>every</strong> record in the Teams table with a New York Yankees ID.</p>
+</div>
+<div id="exercise-2" class="section level2">
+<h2><span class="header-section-number">8.3</span> Exercise 2</h2>
+<p>Generate the list of players who have 500 or more career homeruns, with their first and last names included instead of their playerID’s.</p>
+<p><em>Solution</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HR_df &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">summarize</span>(<span class="dt">careerHR =</span> <span class="kw">sum</span>(HR)) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">filter</span>(careerHR <span class="op">&gt;=</span><span class="st"> </span><span class="dv">500</span>)
+          
+playerNames_df &lt;-<span class="st"> </span>Master <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">select</span>(playerID,nameFirst,nameLast)
+
+result &lt;-<span class="st"> </span><span class="kw">inner_join</span>(playerNames_df,HR_df,<span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;playerID&quot;</span>=<span class="st">&quot;playerID&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">select</span>(nameFirst,nameLast,careerHR) <span class="op">%&gt;%</span>
+<span class="st">          </span><span class="kw">arrange</span>(<span class="kw">desc</span>(careerHR))
+
+<span class="kw">data.frame</span>(result)</code></pre></div>
+<pre><code>##    nameFirst  nameLast careerHR
+## 1      Barry     Bonds      762
+## 2       Hank     Aaron      755
+## 3       Babe      Ruth      714
+## 4       Alex Rodriguez      696
+## 5     Willie      Mays      660
+## 6        Ken   Griffey      630
+## 7        Jim     Thome      612
+## 8      Sammy      Sosa      609
+## 9     Albert    Pujols      591
+## 10     Frank  Robinson      586
+## 11      Mark   McGwire      583
+## 12    Harmon Killebrew      573
+## 13    Rafael  Palmeiro      569
+## 14    Reggie   Jackson      563
+## 15     Manny   Ramirez      555
+## 16      Mike   Schmidt      548
+## 17     David     Ortiz      541
+## 18    Mickey    Mantle      536
+## 19    Jimmie      Foxx      534
+## 20    Willie   McCovey      521
+## 21     Frank    Thomas      521
+## 22       Ted  Williams      521
+## 23     Ernie     Banks      512
+## 24     Eddie   Mathews      512
+## 25       Mel       Ott      511
+## 26      Gary Sheffield      509
+## 27     Eddie    Murray      504</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="grouping.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

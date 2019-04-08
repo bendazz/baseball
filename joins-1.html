@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 8 Joins | Baseball Analytics Workshop (Morning Session)</title>
+  <title>Chapter 9 Joins | Baseball Analytics Workshop (Morning Session)</title>
   <meta name="description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 8 Joins | Baseball Analytics Workshop (Morning Session)" />
+  <meta property="og:title" content="Chapter 9 Joins | Baseball Analytics Workshop (Morning Session)" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 8 Joins | Baseball Analytics Workshop (Morning Session)" />
+  <meta name="twitter:title" content="Chapter 9 Joins | Baseball Analytics Workshop (Morning Session)" />
   
   <meta name="twitter:description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="grouping.html">
-<link rel="next" href="ggplot.html">
+<link rel="prev" href="joins.html">
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -130,9 +130,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.2" data-path="joins.html"><a href="joins.html#exercise-1"><i class="fa fa-check"></i><b>8.2</b> Exercise 1</a></li>
 <li class="chapter" data-level="8.3" data-path="joins.html"><a href="joins.html#exercise-2"><i class="fa fa-check"></i><b>8.3</b> Exercise 2</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="ggplot.html"><a href="ggplot.html"><i class="fa fa-check"></i><b>9</b> ggplot</a><ul>
-<li class="chapter" data-level="9.1" data-path="ggplot.html"><a href="ggplot.html#installation"><i class="fa fa-check"></i><b>9.1</b> Installation</a></li>
-<li class="chapter" data-level="9.2" data-path="ggplot.html"><a href="ggplot.html#a-simple-plot"><i class="fa fa-check"></i><b>9.2</b> A Simple Plot</a></li>
+<li class="chapter" data-level="9" data-path="joins-1.html"><a href="joins-1.html"><i class="fa fa-check"></i><b>9</b> Joins</a><ul>
+<li class="chapter" data-level="9.1" data-path="joins-1.html"><a href="joins-1.html#the-basics-2"><i class="fa fa-check"></i><b>9.1</b> The Basics</a></li>
+<li class="chapter" data-level="9.2" data-path="joins-1.html"><a href="joins-1.html#exercise-1-1"><i class="fa fa-check"></i><b>9.2</b> Exercise 1</a></li>
+<li class="chapter" data-level="9.3" data-path="joins-1.html"><a href="joins-1.html#exercise-2-1"><i class="fa fa-check"></i><b>9.3</b> Exercise 2</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -154,10 +155,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="joins" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Joins</h1>
-<div id="the-basics-1" class="section level2">
-<h2><span class="header-section-number">8.1</span> The Basics</h2>
+<div id="joins-1" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Joins</h1>
+<div id="the-basics-2" class="section level2">
+<h2><span class="header-section-number">9.1</span> The Basics</h2>
 <p>In chapter 6 we generated the list of records where the homerun total was 50 or more. Only each player’s ID was indicated, however. It would be nice to have their names as well. But this information is not in the Batting table, but rather in the Master table. We will therefore have to <strong>join</strong> the Batting and the Master table.</p>
 <p>Let’s begin by generating again the list from chapter 6:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HR_df &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span>
@@ -273,8 +274,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 42      Greg    Vaughn   1998    SDN 50</code></pre>
 <p>Note that I decided not to select the playerID here.</p>
 </div>
-<div id="exercise-1" class="section level2">
-<h2><span class="header-section-number">8.2</span> Exercise 1</h2>
+<div id="exercise-1-1" class="section level2">
+<h2><span class="header-section-number">9.2</span> Exercise 1</h2>
 <p>Include the <strong>team</strong> name in the list above.</p>
 <p><em>Solution</em></p>
 <p>First, let’s generate a teamNames_df:</p>
@@ -341,8 +342,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 42    Prince   Fielder      Milwaukee Brewers   2007 50</code></pre>
 <p>It takes a little thought to see why we had to join by both teamID <strong>and</strong> yearID. If we had not, Babe Ruth’s 1927 record, for instance, would have been joined with <strong>every</strong> record in the Teams table with a New York Yankees ID.</p>
 </div>
-<div id="exercise-2" class="section level2">
-<h2><span class="header-section-number">8.3</span> Exercise 2</h2>
+<div id="exercise-2-1" class="section level2">
+<h2><span class="header-section-number">9.3</span> Exercise 2</h2>
 <p>Generate the list of players who have 500 or more career homeruns, with their first and last names included instead of their playerID’s.</p>
 <p><em>Solution</em></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HR_df &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span>
@@ -394,8 +395,8 @@ result &lt;-<span class="st"> </span><span class="kw">inner_join</span>(playerNa
           </div>
         </div>
       </div>
-<a href="grouping.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ggplot.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="joins.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

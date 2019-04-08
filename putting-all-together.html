@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 2 Intro to RStudio | Baseball Analytics Workshop (Morning Session)</title>
+  <title>Chapter 13 Putting All Together | Baseball Analytics Workshop (Morning Session)</title>
   <meta name="description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 2 Intro to RStudio | Baseball Analytics Workshop (Morning Session)" />
+  <meta property="og:title" content="Chapter 13 Putting All Together | Baseball Analytics Workshop (Morning Session)" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Intro to RStudio | Baseball Analytics Workshop (Morning Session)" />
+  <meta name="twitter:title" content="Chapter 13 Putting All Together | Baseball Analytics Workshop (Morning Session)" />
   
   <meta name="twitter:description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="index.html">
-<link rel="next" href="install-lahman.html">
+<link rel="prev" href="barplots.html">
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -158,14 +158,100 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="intro-to-rstudio" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> Intro to RStudio</h1>
-<p>When you launch RStudio, it should look something like this:</p>
-<p><img src="RStudio1.png"/></p>
-<p>There you can see three panels. The panel on the left is called the <strong>console</strong>. If you click the panel icon in the upper right-hand corner of the console, it will open a fourth panel, in the upper left, where we will write our scripts:</p>
-<p><img src="RStudio2.png"/></p>
-<p>If you ever wish to clear the console, you can press <strong>control-l</strong>:</p>
-<p><img src="RStudio3.png"/></p>
+<div id="putting-all-together" class="section level1">
+<h1><span class="header-section-number">Chapter 13</span> Putting All Together</h1>
+<p>As a final exercise, let’s do the example from the last chapter, but with the Pirates as well.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">phils&lt;-Batting <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(yearID <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1970</span> <span class="op">&amp;</span><span class="st"> </span>yearID <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1979</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(teamID <span class="op">==</span><span class="st"> &quot;PHI&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">summarize</span>(<span class="dt">decadeHR =</span> <span class="kw">sum</span>(HR),<span class="dt">decadeAB =</span> <span class="kw">sum</span>(AB)) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">mutate</span>(<span class="dt">playerTeam =</span> <span class="kw">paste</span>(playerID,<span class="st">&quot;PHI&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),<span class="dt">team=</span><span class="st">&quot;phillies&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">select</span>(playerTeam,decadeHR,decadeAB,team) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(decadeAB <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1500</span>) 
+
+<span class="kw">data.frame</span>(phils)</code></pre></div>
+<pre><code>##     playerTeam decadeHR decadeAB     team
+## 1 boonebo01PHI       52     2983 phillies
+## 2  bowala01PHI       11     5915 phillies
+## 3  cashda01PHI        7     2052 phillies
+## 4 doylede01PHI        9     1567 phillies
+## 5 luzingr01PHI      204     4262 phillies
+## 6 maddoga01PHI       48     2622 phillies
+## 7 montawi01PHI       63     2318 phillies
+## 8 schmimi01PHI      235     3713 phillies</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pirates&lt;-Batting <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(yearID <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1970</span> <span class="op">&amp;</span><span class="st"> </span>yearID <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1979</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(teamID <span class="op">==</span><span class="st"> &quot;PIT&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">summarize</span>(<span class="dt">decadeHR =</span> <span class="kw">sum</span>(HR),<span class="dt">decadeAB =</span> <span class="kw">sum</span>(AB)) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">mutate</span>(<span class="dt">playerTeam =</span> <span class="kw">paste</span>(playerID,<span class="st">&quot;PIT&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),<span class="dt">team=</span><span class="st">&quot;pirates&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">select</span>(playerTeam,decadeHR,decadeAB,team) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(decadeAB <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1500</span>) 
+
+<span class="kw">data.frame</span>(pirates)</code></pre></div>
+<pre><code>##      playerTeam decadeHR decadeAB    team
+## 1   cashda01PIT        8     1549 pirates
+## 2  garneph01PIT       38     1662 pirates
+## 3  hebneri01PIT      113     3200 pirates
+## 4  morenom01PIT       19     1830 pirates
+## 5  oliveal01PIT      118     4555 pirates
+## 6  parkeda01PIT      122     3294 pirates
+## 7  roberbo01PIT      103     2051 pirates
+## 8  robinbi02PIT       91     2020 pirates
+## 9  sanguma01PIT       54     3888 pirates
+## 10 stargwi01PIT      296     4399 pirates
+## 11 stennre01PIT       38     4037 pirates
+## 12 taverfr01PIT        1     2476 pirates
+## 13  ziskri01PIT       69     2006 pirates</code></pre>
+<p>Note that we have added a team in the summarize step. That is because we will now stack these data frames vertically, and we want to be able to distinguish between phillies and pirates records. You can stack the dataframes this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">philsPirates &lt;-<span class="st"> </span><span class="kw">rbind</span>(phils,pirates) <span class="op">%&gt;%</span>
+<span class="st">                  </span><span class="kw">arrange</span>(decadeHR)
+
+philsPirates<span class="op">$</span>playerTeam &lt;-<span class="st"> </span><span class="kw">factor</span>(philsPirates<span class="op">$</span>playerTeam,<span class="dt">levels=</span>philsPirates<span class="op">$</span>playerTeam)
+
+<span class="kw">data.frame</span>(philsPirates)</code></pre></div>
+<pre><code>##      playerTeam decadeHR decadeAB     team
+## 1  taverfr01PIT        1     2476  pirates
+## 2   cashda01PHI        7     2052 phillies
+## 3   cashda01PIT        8     1549  pirates
+## 4  doylede01PHI        9     1567 phillies
+## 5   bowala01PHI       11     5915 phillies
+## 6  morenom01PIT       19     1830  pirates
+## 7  garneph01PIT       38     1662  pirates
+## 8  stennre01PIT       38     4037  pirates
+## 9  maddoga01PHI       48     2622 phillies
+## 10 boonebo01PHI       52     2983 phillies
+## 11 sanguma01PIT       54     3888  pirates
+## 12 montawi01PHI       63     2318 phillies
+## 13  ziskri01PIT       69     2006  pirates
+## 14 robinbi02PIT       91     2020  pirates
+## 15 roberbo01PIT      103     2051  pirates
+## 16 hebneri01PIT      113     3200  pirates
+## 17 oliveal01PIT      118     4555  pirates
+## 18 parkeda01PIT      122     3294  pirates
+## 19 luzingr01PHI      204     4262 phillies
+## 20 schmimi01PHI      235     3713 phillies
+## 21 stargwi01PIT      296     4399  pirates</code></pre>
+<p>At the same time, we also arranged and factored.</p>
+<p>Now we can plot the two together:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">data=</span>philsPirates,<span class="kw">aes</span>(<span class="dt">x=</span>playerTeam,<span class="dt">y=</span>decadeHR,<span class="dt">color=</span>team,<span class="dt">fill=</span>team),
+           <span class="dt">stat=</span>(<span class="st">&quot;identity&quot;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;black&quot;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;lightskyblue&quot;</span>,<span class="st">&quot;gold&quot;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>()<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">data=</span>philsPirates,<span class="kw">aes</span>(<span class="dt">x=</span>playerTeam,<span class="dt">y=</span>decadeHR,<span class="dt">color=</span>team,<span class="dt">fill=</span>team),
+           <span class="dt">stat=</span>(<span class="st">&quot;identity&quot;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;black&quot;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;lightskyblue&quot;</span>,<span class="st">&quot;gold&quot;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(.<span class="op">~</span>team)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
 
 </div>
             </section>
@@ -173,8 +259,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="install-lahman.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="barplots.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

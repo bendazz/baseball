@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 2 Intro to RStudio | Baseball Analytics Workshop (Morning Session)</title>
+  <title>Chapter 10 Grouping in ggplot | Baseball Analytics Workshop (Morning Session)</title>
   <meta name="description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 2 Intro to RStudio | Baseball Analytics Workshop (Morning Session)" />
+  <meta property="og:title" content="Chapter 10 Grouping in ggplot | Baseball Analytics Workshop (Morning Session)" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Intro to RStudio | Baseball Analytics Workshop (Morning Session)" />
+  <meta name="twitter:title" content="Chapter 10 Grouping in ggplot | Baseball Analytics Workshop (Morning Session)" />
   
   <meta name="twitter:description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="index.html">
-<link rel="next" href="install-lahman.html">
+<link rel="prev" href="ggplot.html">
+<link rel="next" href="facets-in-ggplot.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -158,14 +158,78 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="intro-to-rstudio" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> Intro to RStudio</h1>
-<p>When you launch RStudio, it should look something like this:</p>
-<p><img src="RStudio1.png"/></p>
-<p>There you can see three panels. The panel on the left is called the <strong>console</strong>. If you click the panel icon in the upper right-hand corner of the console, it will open a fourth panel, in the upper left, where we will write our scripts:</p>
-<p><img src="RStudio2.png"/></p>
-<p>If you ever wish to clear the console, you can press <strong>control-l</strong>:</p>
-<p><img src="RStudio3.png"/></p>
+<div id="grouping-in-ggplot" class="section level1">
+<h1><span class="header-section-number">Chapter 10</span> Grouping in ggplot</h1>
+<p>Let’s add Lou Gehrig’s homerun information to the data frame we constructed in the last chapter:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ruthGehrig&lt;-Batting <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(playerID <span class="op">==</span><span class="st"> &quot;ruthba01&quot;</span> <span class="op">|</span><span class="st"> </span>playerID <span class="op">==</span><span class="st"> &quot;gehrilo01&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">select</span>(playerID,yearID,HR)
+
+<span class="kw">data.frame</span>(ruthGehrig)</code></pre></div>
+<pre><code>##     playerID yearID HR
+## 1   ruthba01   1914  0
+## 2   ruthba01   1915  4
+## 3   ruthba01   1916  3
+## 4   ruthba01   1917  2
+## 5   ruthba01   1918 11
+## 6   ruthba01   1919 29
+## 7   ruthba01   1920 54
+## 8   ruthba01   1921 59
+## 9   ruthba01   1922 35
+## 10 gehrilo01   1923  1
+## 11  ruthba01   1923 41
+## 12 gehrilo01   1924  0
+## 13  ruthba01   1924 46
+## 14 gehrilo01   1925 20
+## 15  ruthba01   1925 25
+## 16 gehrilo01   1926 16
+## 17  ruthba01   1926 47
+## 18 gehrilo01   1927 47
+## 19  ruthba01   1927 60
+## 20 gehrilo01   1928 27
+## 21  ruthba01   1928 54
+## 22 gehrilo01   1929 35
+## 23  ruthba01   1929 46
+## 24 gehrilo01   1930 41
+## 25  ruthba01   1930 49
+## 26 gehrilo01   1931 46
+## 27  ruthba01   1931 46
+## 28 gehrilo01   1932 34
+## 29  ruthba01   1932 41
+## 30 gehrilo01   1933 32
+## 31  ruthba01   1933 34
+## 32 gehrilo01   1934 49
+## 33  ruthba01   1934 22
+## 34 gehrilo01   1935 30
+## 35  ruthba01   1935  6
+## 36 gehrilo01   1936 49
+## 37 gehrilo01   1937 37
+## 38 gehrilo01   1938 29
+## 39 gehrilo01   1939  0</code></pre>
+<p>Note the pipe symbol used in the filter for an “or”, and also that we have included the playerID this time to distinguish the players.</p>
+<p>We can plot the homerun totals for the players separately, in one plot, in the following way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data =</span> ruthGehrig,<span class="kw">aes</span>(<span class="dt">x=</span>yearID,<span class="dt">y=</span>HR,<span class="dt">group=</span>playerID))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p>Note the use of <strong>group</strong> in the aesthetics.</p>
+<p>We could now distinguish the two line graphs with color (and add point and labels):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data =</span> ruthGehrig,<span class="kw">aes</span>(<span class="dt">x=</span>yearID,<span class="dt">y=</span>HR,<span class="dt">group=</span>playerID,<span class="dt">color=</span>playerID)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> ruthGehrig,<span class="kw">aes</span>(<span class="dt">x=</span>yearID,<span class="dt">y=</span>HR,<span class="dt">group=</span>playerID,<span class="dt">color=</span>playerID)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Ruth and Gehrig HR Totals&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Season HR Totals&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>Note that <strong>color</strong> is within the aesthetics and is set to a column name.</p>
+<p>To change the color scheme, we can add a color scale;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data =</span> ruthGehrig,<span class="kw">aes</span>(<span class="dt">x=</span>yearID,<span class="dt">y=</span>HR,<span class="dt">group=</span>playerID,<span class="dt">color=</span>playerID)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> ruthGehrig,<span class="kw">aes</span>(<span class="dt">x=</span>yearID,<span class="dt">y=</span>HR,<span class="dt">group=</span>playerID,<span class="dt">color=</span>playerID)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Ruth and Gehrig HR Totals&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Season HR Totals&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#003f5c&quot;</span>,<span class="st">&quot;#bc5090&quot;</span>))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 
 </div>
             </section>
@@ -173,8 +237,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="install-lahman.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ggplot.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="facets-in-ggplot.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

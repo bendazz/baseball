@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 11 Facets in ggplot | Baseball Analytics Workshop (Morning Session)</title>
+  <meta name="description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 11 Facets in ggplot | Baseball Analytics Workshop (Morning Session)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 Facets in ggplot | Baseball Analytics Workshop (Morning Session)" />
+  
+  <meta name="twitter:description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop." />
+  
+
+<meta name="author" content="Charles Redmond">
+
+
+<meta name="date" content="2019-04-08">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="grouping-in-ggplot.html">
+<link rel="next" href="barplots.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Baseball Analytics Workshop</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Software Installation</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#install-r"><i class="fa fa-check"></i><b>1.1</b> Install R</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#windows"><i class="fa fa-check"></i><b>1.1.1</b> Windows</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#mac"><i class="fa fa-check"></i><b>1.1.2</b> Mac</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#rstudio"><i class="fa fa-check"></i><b>1.2</b> RStudio</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro-to-rstudio.html"><a href="intro-to-rstudio.html"><i class="fa fa-check"></i><b>2</b> Intro to RStudio</a></li>
+<li class="chapter" data-level="3" data-path="install-lahman.html"><a href="install-lahman.html"><i class="fa fa-check"></i><b>3</b> Install Lahman</a></li>
+<li class="chapter" data-level="4" data-path="a-look-at-the-tables.html"><a href="a-look-at-the-tables.html"><i class="fa fa-check"></i><b>4</b> A Look At The Tables</a></li>
+<li class="chapter" data-level="5" data-path="install-dplyr.html"><a href="install-dplyr.html"><i class="fa fa-check"></i><b>5</b> Install dplyr</a></li>
+<li class="chapter" data-level="6" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html"><i class="fa fa-check"></i><b>6</b> Selecting, Filtering, and Arranging</a><ul>
+<li class="chapter" data-level="6.1" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#select"><i class="fa fa-check"></i><b>6.1</b> Select</a></li>
+<li class="chapter" data-level="6.2" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#scripts"><i class="fa fa-check"></i><b>6.2</b> Scripts</a></li>
+<li class="chapter" data-level="6.3" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#filter"><i class="fa fa-check"></i><b>6.3</b> Filter</a></li>
+<li class="chapter" data-level="6.4" data-path="selecting-filtering-and-arranging.html"><a href="selecting-filtering-and-arranging.html#arrange"><i class="fa fa-check"></i><b>6.4</b> Arrange</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="grouping.html"><a href="grouping.html"><i class="fa fa-check"></i><b>7</b> Grouping</a><ul>
+<li class="chapter" data-level="7.1" data-path="grouping.html"><a href="grouping.html#the-basics"><i class="fa fa-check"></i><b>7.1</b> The Basics</a></li>
+<li class="chapter" data-level="7.2" data-path="grouping.html"><a href="grouping.html#exercise"><i class="fa fa-check"></i><b>7.2</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="joins.html"><a href="joins.html"><i class="fa fa-check"></i><b>8</b> Joins</a><ul>
+<li class="chapter" data-level="8.1" data-path="joins.html"><a href="joins.html#the-basics-1"><i class="fa fa-check"></i><b>8.1</b> The Basics</a></li>
+<li class="chapter" data-level="8.2" data-path="joins.html"><a href="joins.html#exercise-1"><i class="fa fa-check"></i><b>8.2</b> Exercise 1</a></li>
+<li class="chapter" data-level="8.3" data-path="joins.html"><a href="joins.html#exercise-2"><i class="fa fa-check"></i><b>8.3</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="ggplot.html"><a href="ggplot.html"><i class="fa fa-check"></i><b>9</b> ggplot</a><ul>
+<li class="chapter" data-level="9.1" data-path="ggplot.html"><a href="ggplot.html#installation"><i class="fa fa-check"></i><b>9.1</b> Installation</a></li>
+<li class="chapter" data-level="9.2" data-path="ggplot.html"><a href="ggplot.html#a-simple-plot"><i class="fa fa-check"></i><b>9.2</b> A Simple Plot</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="grouping-in-ggplot.html"><a href="grouping-in-ggplot.html"><i class="fa fa-check"></i><b>10</b> Grouping in ggplot</a></li>
+<li class="chapter" data-level="11" data-path="facets-in-ggplot.html"><a href="facets-in-ggplot.html"><i class="fa fa-check"></i><b>11</b> Facets in ggplot</a></li>
+<li class="chapter" data-level="12" data-path="barplots.html"><a href="barplots.html"><i class="fa fa-check"></i><b>12</b> Barplots</a></li>
+<li class="chapter" data-level="13" data-path="putting-all-together.html"><a href="putting-all-together.html"><i class="fa fa-check"></i><b>13</b> Putting All Together</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Baseball Analytics Workshop (Morning Session)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="facets-in-ggplot" class="section level1">
+<h1><span class="header-section-number">Chapter 11</span> Facets in ggplot</h1>
+<p>In this section, we will plot the homerun performances of the 10 greatest homerun hitters in baseball history. First, let’s generate the list of these ten players;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hitters&lt;-Batting <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">careerHR =</span> <span class="kw">sum</span>(HR)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">top_n</span>(<span class="dv">10</span>)</code></pre></div>
+<pre><code>## Selecting by careerHR</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data.frame</span>(hitters)</code></pre></div>
+<pre><code>##     playerID careerHR
+## 1  aaronha01      755
+## 2  bondsba01      762
+## 3  griffke02      630
+## 4   mayswi01      660
+## 5  pujolal01      591
+## 6  robinfr02      586
+## 7  rodrial01      696
+## 8   ruthba01      714
+## 9   sosasa01      609
+## 10 thomeji01      612</code></pre>
+<p>Note the use of the new function <strong>top_n</strong>.</p>
+<p>We can now take the <strong>Batting</strong> data frame and pull out just the playerID, yearID, and HR columns:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HR_df &lt;-Batting <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(playerID,yearID,HR)
+
+<span class="kw">head</span>(HR_df)</code></pre></div>
+<pre><code>##    playerID yearID HR
+## 1 abercda01   1871  0
+## 2  addybo01   1871  0
+## 3 allisar01   1871  0
+## 4 allisdo01   1871  2
+## 5 ansonca01   1871  0
+## 6 armstbo01   1871  0</code></pre>
+<p>Finally, we can join, and we have our dataset:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">topHitters &lt;-<span class="st"> </span><span class="kw">inner_join</span>(hitters,HR_df,<span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;playerID&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">                  </span><span class="kw">select</span>(playerID,yearID,HR)
+
+<span class="kw">data.frame</span>(topHitters)</code></pre></div>
+<pre><code>##      playerID yearID HR
+## 1   aaronha01   1954 13
+## 2   aaronha01   1955 27
+## 3   aaronha01   1956 26
+## 4   aaronha01   1957 44
+## 5   aaronha01   1958 30
+## 6   aaronha01   1959 39
+## 7   aaronha01   1960 40
+## 8   aaronha01   1961 34
+## 9   aaronha01   1962 45
+## 10  aaronha01   1963 44
+## 11  aaronha01   1964 24
+## 12  aaronha01   1965 32
+## 13  aaronha01   1966 44
+## 14  aaronha01   1967 39
+## 15  aaronha01   1968 29
+## 16  aaronha01   1969 44
+## 17  aaronha01   1970 38
+## 18  aaronha01   1971 47
+## 19  aaronha01   1972 34
+## 20  aaronha01   1973 40
+## 21  aaronha01   1974 20
+## 22  aaronha01   1975 12
+## 23  aaronha01   1976 10
+## 24  bondsba01   1986 16
+## 25  bondsba01   1987 25
+## 26  bondsba01   1988 24
+## 27  bondsba01   1989 19
+## 28  bondsba01   1990 33
+## 29  bondsba01   1991 25
+## 30  bondsba01   1992 34
+## 31  bondsba01   1993 46
+## 32  bondsba01   1994 37
+## 33  bondsba01   1995 33
+## 34  bondsba01   1996 42
+## 35  bondsba01   1997 40
+## 36  bondsba01   1998 37
+## 37  bondsba01   1999 34
+## 38  bondsba01   2000 49
+## 39  bondsba01   2001 73
+## 40  bondsba01   2002 46
+## 41  bondsba01   2003 45
+## 42  bondsba01   2004 45
+## 43  bondsba01   2005  5
+## 44  bondsba01   2006 26
+## 45  bondsba01   2007 28
+## 46  griffke02   1989 16
+## 47  griffke02   1990 22
+## 48  griffke02   1991 22
+## 49  griffke02   1992 27
+## 50  griffke02   1993 45
+## 51  griffke02   1994 40
+## 52  griffke02   1995 17
+## 53  griffke02   1996 49
+## 54  griffke02   1997 56
+## 55  griffke02   1998 56
+## 56  griffke02   1999 48
+## 57  griffke02   2000 40
+## 58  griffke02   2001 22
+## 59  griffke02   2002  8
+## 60  griffke02   2003 13
+## 61  griffke02   2004 20
+## 62  griffke02   2005 35
+## 63  griffke02   2006 27
+## 64  griffke02   2007 30
+## 65  griffke02   2008 15
+## 66  griffke02   2008  3
+## 67  griffke02   2009 19
+## 68  griffke02   2010  0
+## 69   mayswi01   1951 20
+## 70   mayswi01   1952  4
+## 71   mayswi01   1954 41
+## 72   mayswi01   1955 51
+## 73   mayswi01   1956 36
+## 74   mayswi01   1957 35
+## 75   mayswi01   1958 29
+## 76   mayswi01   1959 34
+## 77   mayswi01   1960 29
+## 78   mayswi01   1961 40
+## 79   mayswi01   1962 49
+## 80   mayswi01   1963 38
+## 81   mayswi01   1964 47
+## 82   mayswi01   1965 52
+## 83   mayswi01   1966 37
+## 84   mayswi01   1967 22
+## 85   mayswi01   1968 23
+## 86   mayswi01   1969 13
+## 87   mayswi01   1970 28
+## 88   mayswi01   1971 18
+## 89   mayswi01   1972  0
+## 90   mayswi01   1972  8
+## 91   mayswi01   1973  6
+## 92  pujolal01   2001 37
+## 93  pujolal01   2002 34
+## 94  pujolal01   2003 43
+## 95  pujolal01   2004 46
+## 96  pujolal01   2005 41
+## 97  pujolal01   2006 49
+## 98  pujolal01   2007 32
+## 99  pujolal01   2008 37
+## 100 pujolal01   2009 47
+## 101 pujolal01   2010 42
+## 102 pujolal01   2011 37
+## 103 pujolal01   2012 30
+## 104 pujolal01   2013 17
+## 105 pujolal01   2014 28
+## 106 pujolal01   2015 40
+## 107 pujolal01   2016 31
+## 108 robinfr02   1956 38
+## 109 robinfr02   1957 29
+## 110 robinfr02   1958 31
+## 111 robinfr02   1959 36
+## 112 robinfr02   1960 31
+## 113 robinfr02   1961 37
+## 114 robinfr02   1962 39
+## 115 robinfr02   1963 21
+## 116 robinfr02   1964 29
+## 117 robinfr02   1965 33
+## 118 robinfr02   1966 49
+## 119 robinfr02   1967 30
+## 120 robinfr02   1968 15
+## 121 robinfr02   1969 32
+## 122 robinfr02   1970 25
+## 123 robinfr02   1971 28
+## 124 robinfr02   1972 19
+## 125 robinfr02   1973 30
+## 126 robinfr02   1974 20
+## 127 robinfr02   1974  2
+## 128 robinfr02   1975  9
+## 129 robinfr02   1976  3
+## 130 rodrial01   1994  0
+## 131 rodrial01   1995  5
+## 132 rodrial01   1996 36
+## 133 rodrial01   1997 23
+## 134 rodrial01   1998 42
+## 135 rodrial01   1999 42
+## 136 rodrial01   2000 41
+## 137 rodrial01   2001 52
+## 138 rodrial01   2002 57
+## 139 rodrial01   2003 47
+## 140 rodrial01   2004 36
+## 141 rodrial01   2005 48
+## 142 rodrial01   2006 35
+## 143 rodrial01   2007 54
+## 144 rodrial01   2008 35
+## 145 rodrial01   2009 30
+## 146 rodrial01   2010 30
+## 147 rodrial01   2011 16
+## 148 rodrial01   2012 18
+## 149 rodrial01   2013  7
+## 150 rodrial01   2015 33
+## 151 rodrial01   2016  9
+## 152  ruthba01   1914  0
+## 153  ruthba01   1915  4
+## 154  ruthba01   1916  3
+## 155  ruthba01   1917  2
+## 156  ruthba01   1918 11
+## 157  ruthba01   1919 29
+## 158  ruthba01   1920 54
+## 159  ruthba01   1921 59
+## 160  ruthba01   1922 35
+## 161  ruthba01   1923 41
+## 162  ruthba01   1924 46
+## 163  ruthba01   1925 25
+## 164  ruthba01   1926 47
+## 165  ruthba01   1927 60
+## 166  ruthba01   1928 54
+## 167  ruthba01   1929 46
+## 168  ruthba01   1930 49
+## 169  ruthba01   1931 46
+## 170  ruthba01   1932 41
+## 171  ruthba01   1933 34
+## 172  ruthba01   1934 22
+## 173  ruthba01   1935  6
+## 174  sosasa01   1989  1
+## 175  sosasa01   1989  3
+## 176  sosasa01   1990 15
+## 177  sosasa01   1991 10
+## 178  sosasa01   1992  8
+## 179  sosasa01   1993 33
+## 180  sosasa01   1994 25
+## 181  sosasa01   1995 36
+## 182  sosasa01   1996 40
+## 183  sosasa01   1997 36
+## 184  sosasa01   1998 66
+## 185  sosasa01   1999 63
+## 186  sosasa01   2000 50
+## 187  sosasa01   2001 64
+## 188  sosasa01   2002 49
+## 189  sosasa01   2003 40
+## 190  sosasa01   2004 35
+## 191  sosasa01   2005 14
+## 192  sosasa01   2007 21
+## 193 thomeji01   1991  1
+## 194 thomeji01   1992  2
+## 195 thomeji01   1993  7
+## 196 thomeji01   1994 20
+## 197 thomeji01   1995 25
+## 198 thomeji01   1996 38
+## 199 thomeji01   1997 40
+## 200 thomeji01   1998 30
+## 201 thomeji01   1999 33
+## 202 thomeji01   2000 37
+## 203 thomeji01   2001 49
+## 204 thomeji01   2002 52
+## 205 thomeji01   2003 47
+## 206 thomeji01   2004 42
+## 207 thomeji01   2005  7
+## 208 thomeji01   2006 42
+## 209 thomeji01   2007 35
+## 210 thomeji01   2008 34
+## 211 thomeji01   2009 23
+## 212 thomeji01   2009  0
+## 213 thomeji01   2010 25
+## 214 thomeji01   2011 12
+## 215 thomeji01   2011  3
+## 216 thomeji01   2012  5
+## 217 thomeji01   2012  3</code></pre>
+<p>We could now plot the homerun performances;</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>topHitters,<span class="kw">aes</span>(<span class="dt">x=</span>yearID,<span class="dt">y=</span>HR,<span class="dt">group=</span>playerID,<span class="dt">color=</span>playerID))</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p>The three distinct group is certainly interesting! Otherwise, it is a bit of a mess. But we can use faceting to give a clearer presentation:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>topHitters,<span class="kw">aes</span>(<span class="dt">x=</span>yearID,<span class="dt">y=</span>HR,<span class="dt">group=</span>playerID,<span class="dt">color=</span>playerID)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(playerID<span class="op">~</span>.)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p>If you wanted to layout the plots horizontally, you can use .~playerID, but in this case it does not look very good.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>topHitters,<span class="kw">aes</span>(<span class="dt">x=</span>yearID,<span class="dt">y=</span>HR,<span class="dt">group=</span>playerID,<span class="dt">color=</span>playerID)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>playerID)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p>Here the plots are simply wrapped around, so there is no concept of vertical or horizontal.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="grouping-in-ggplot.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="barplots.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

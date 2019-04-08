@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 2 Intro to RStudio | Baseball Analytics Workshop (Morning Session)</title>
+  <title>Chapter 12 Barplots | Baseball Analytics Workshop (Morning Session)</title>
   <meta name="description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 2 Intro to RStudio | Baseball Analytics Workshop (Morning Session)" />
+  <meta property="og:title" content="Chapter 12 Barplots | Baseball Analytics Workshop (Morning Session)" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Intro to RStudio | Baseball Analytics Workshop (Morning Session)" />
+  <meta name="twitter:title" content="Chapter 12 Barplots | Baseball Analytics Workshop (Morning Session)" />
   
   <meta name="twitter:description" content="A brief tutorial on the Lahman and dplyr packages for the ASA Baseball Workshop." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="index.html">
-<link rel="next" href="install-lahman.html">
+<link rel="prev" href="facets-in-ggplot.html">
+<link rel="next" href="putting-all-together.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -158,14 +158,81 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="intro-to-rstudio" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> Intro to RStudio</h1>
-<p>When you launch RStudio, it should look something like this:</p>
-<p><img src="RStudio1.png"/></p>
-<p>There you can see three panels. The panel on the left is called the <strong>console</strong>. If you click the panel icon in the upper right-hand corner of the console, it will open a fourth panel, in the upper left, where we will write our scripts:</p>
-<p><img src="RStudio2.png"/></p>
-<p>If you ever wish to clear the console, you can press <strong>control-l</strong>:</p>
-<p><img src="RStudio3.png"/></p>
+<div id="barplots" class="section level1">
+<h1><span class="header-section-number">Chapter 12</span> Barplots</h1>
+<p>We’ll end our tutorial with barplots in ggplot. They are useful and popular, but they can be a bit tricky.</p>
+<p>For an example, let’s consider the main Phillies hitters from the 1970’s (1500 or more at-bats) and how many homeruns they hit.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">phils&lt;-Batting <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(yearID <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1970</span> <span class="op">&amp;</span><span class="st"> </span>yearID <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1979</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(teamID <span class="op">==</span><span class="st"> &quot;PHI&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">summarize</span>(<span class="dt">decadeHR =</span> <span class="kw">sum</span>(HR),<span class="dt">decadeAB =</span> <span class="kw">sum</span>(AB)) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(decadeAB <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1500</span>)
+        
+<span class="kw">data.frame</span>(phils)</code></pre></div>
+<pre><code>##    playerID decadeHR decadeAB
+## 1 boonebo01       52     2983
+## 2  bowala01       11     5915
+## 3  cashda01        7     2052
+## 4 doylede01        9     1567
+## 5 luzingr01      204     4262
+## 6 maddoga01       48     2622
+## 7 montawi01       63     2318
+## 8 schmimi01      235     3713</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">data=</span>phils,<span class="kw">aes</span>(<span class="dt">x=</span>playerID,<span class="dt">y=</span>decadeHR),<span class="dt">stat=</span>(<span class="st">&quot;identity&quot;</span>),<span class="dt">color=</span><span class="st">&quot;red&quot;</span>,
+           <span class="dt">fill=</span><span class="st">&quot;lightskyblue&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p>The <strong>stat=(“identity”)</strong> is necessary to connect the categories (the players) with the measurements (the decade homerun totals).</p>
+<p>Note that the categories are put in alphabetical order. This would be true even if we had arranged the records in ascending or descending order.</p>
+<p>What we need to do is to change the data type of the playerID column from character to factor (which makes them, more properly, categories):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">phils<span class="op">$</span>playerID &lt;-<span class="st"> </span><span class="kw">factor</span>(phils<span class="op">$</span>playerID)</code></pre></div>
+<p>The <strong>$</strong> notation is how you refer to a column in R. Let’s now look at the structure of this column:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(phils<span class="op">$</span>playerID)</code></pre></div>
+<pre><code>##  Factor w/ 8 levels &quot;boonebo01&quot;,&quot;bowala01&quot;,..: 1 2 3 4 5 6 7 8</code></pre>
+<p>The playerID variable is now a <strong>factor</strong> with eight <strong>levels</strong>. However, as you can see, levels are in alphabetical order. We could change this by adding, as an argument, levels=c(“schmimi01”,“luzingr01”,…), putting the levels in the order we desire. This, however, is tedious. Instead, we could first arrange the data frame</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">phils&lt;-Batting <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(yearID <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1970</span> <span class="op">&amp;</span><span class="st"> </span>yearID <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1979</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(teamID <span class="op">==</span><span class="st"> &quot;PHI&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">group_by</span>(playerID) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">summarize</span>(<span class="dt">decadeHR =</span> <span class="kw">sum</span>(HR),<span class="dt">decadeAB =</span> <span class="kw">sum</span>(AB)) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(decadeAB <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1500</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">arrange</span>(<span class="kw">desc</span>(decadeHR))
+        
+<span class="kw">data.frame</span>(phils)</code></pre></div>
+<pre><code>##    playerID decadeHR decadeAB
+## 1 schmimi01      235     3713
+## 2 luzingr01      204     4262
+## 3 montawi01       63     2318
+## 4 boonebo01       52     2983
+## 5 maddoga01       48     2622
+## 6  bowala01       11     5915
+## 7 doylede01        9     1567
+## 8  cashda01        7     2052</code></pre>
+<p>and then use the playerID column itself to order the levels:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">phils<span class="op">$</span>playerID &lt;-<span class="st"> </span><span class="kw">factor</span>(phils<span class="op">$</span>playerID,<span class="dt">levels=</span>phils<span class="op">$</span>playerID)</code></pre></div>
+<p>Now, we try the plot again:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">data=</span>phils,<span class="kw">aes</span>(<span class="dt">x=</span>playerID,<span class="dt">y=</span>decadeHR),<span class="dt">stat=</span>(<span class="st">&quot;identity&quot;</span>),<span class="dt">color=</span><span class="st">&quot;red&quot;</span>,
+           <span class="dt">fill=</span><span class="st">&quot;lightskyblue&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Phils Homeruns &#39;70&#39;s&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Player&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Homerun Total&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<p>You could also flip the coordinates:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">data=</span>phils,<span class="kw">aes</span>(<span class="dt">x=</span>playerID,<span class="dt">y=</span>decadeHR),<span class="dt">stat=</span>(<span class="st">&quot;identity&quot;</span>),<span class="dt">color=</span><span class="st">&quot;red&quot;</span>,
+           <span class="dt">fill=</span><span class="st">&quot;lightskyblue&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Phils Homeruns &#39;70&#39;s&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Player&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Homerun Total&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<p>In this case, I think I prefer ascending order, so I could simply revise the data frame, factor, and plot again:</p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
 
 </div>
             </section>
@@ -173,8 +240,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="install-lahman.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="facets-in-ggplot.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="putting-all-together.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

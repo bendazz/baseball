@@ -204,7 +204,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 11 stennre01PIT       38     4037 pirates
 ## 12 taverfr01PIT        1     2476 pirates
 ## 13  ziskri01PIT       69     2006 pirates</code></pre>
-<p>Note that we have added a team in the summarize step. That is because we will now stack these data frames vertically, and we want to be able to distinguish between phillies and pirates records. You can stack the dataframes this way:</p>
+<p>There are a few new ideas here. First, we have used <strong>mutate</strong> to create two new columns. We created the “playerTeam” column by pasting the teamID onto the playerID. We did this because there is one player who played for both teams during the ’70’s and we need to have distinct categories. So “playerTeam” will be our category column instead of “playerID”. We have also added a “team” column so that we can easily distinguish between Phillies and Pirate records when plotting.</p>
+<p>We can now stack the two data frames in this way:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">philsPirates &lt;-<span class="st"> </span><span class="kw">rbind</span>(phils,pirates) <span class="op">%&gt;%</span>
 <span class="st">                  </span><span class="kw">arrange</span>(decadeHR)
 
@@ -243,6 +244,7 @@ philsPirates<span class="op">$</span>playerTeam &lt;-<span class="st"> </span><s
 <span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<p>Finally, we can try faceting:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>()<span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">data=</span>philsPirates,<span class="kw">aes</span>(<span class="dt">x=</span>playerTeam,<span class="dt">y=</span>decadeHR,<span class="dt">color=</span>team,<span class="dt">fill=</span>team),
            <span class="dt">stat=</span>(<span class="st">&quot;identity&quot;</span>)) <span class="op">+</span>
@@ -252,6 +254,7 @@ philsPirates<span class="op">$</span>playerTeam &lt;-<span class="st"> </span><s
 <span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">facet_grid</span>(.<span class="op">~</span>team)</code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p>Of course, the plot would be better had we used names instead of playerID as the categories.</p>
 
 </div>
             </section>
